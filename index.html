@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Modulo Ordine</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('SW registrato'))
-        .catch(e => console.error('SW non registrato', e));
-    }
-  </script>
+  <link rel="manifest" href="manifest.json" />
 </head>
 <body>
-  <h1>Modulo Ordine</h1>
+  <h2>Modulo Ordine</h2>
   <form>
-    <label for="name">Nome:</label><br>
-    <input type="text" id="name" name="name"><br>
-    <label for="order">Ordine:</label><br>
-    <input type="text" id="order" name="order"><br><br>
-    <input type="submit" value="Invia">
+    <label for="nome">Nome:</label><br />
+    <input type="text" id="nome" name="nome" placeholder="Inserisci il tuo nome" required /><br /><br />
+
+    <label for="ordine">Ordine:</label><br />
+    <textarea id="ordine" name="ordine" placeholder="Descrivi il tuo ordine" required></textarea><br /><br />
+
+    <button type="submit">Invia</button>
   </form>
+
+  <script>
+    // Se vuoi, qui potresti aggiungere il codice JS per gestire l'invio, salvare offline, ecc.
+    document.querySelector("form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("Ordine inviato! Grazie " + document.getElementById("nome").value);
+      // Qui puoi aggiungere codice per inviare dati da qualche parte o salvarli offline
+    });
+  </script>
 </body>
 </html>
+
+AGGIORNO MODULO ORDINE
