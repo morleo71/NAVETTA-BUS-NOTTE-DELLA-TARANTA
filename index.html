@@ -2,31 +2,578 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Modulo Ordine</title>
-  <link rel="manifest" href="manifest.json" />
+  <title>Organizzazione Pullman - Notte della Taranta</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #e9f0f7;
+      margin: 0;
+      padding: 25px 15px;
+      color: #2c3e50;
+    }
+    h1 {
+      text-align: center;
+      color: #1a73e8;
+      font-weight: 700;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 2px rgba(26,115,232,0.5);
+    }
+    .logo-container {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+    .logo-container img {
+      max-width: 180px;
+      height: auto;
+      filter: drop-shadow(0 0 4px rgba(26,115,232,0.4));
+    }
+    .form-container {
+      max-width: 980px;
+      margin: 0 auto 40px auto;
+      background: #ffffff;
+      padding: 28px 30px 30px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(26, 115, 232, 0.15);
+    }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+    }
+    .form-group {
+      flex: 1 1 30%;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #34495e;
+    }
+    .form-group input,
+    .form-group select {
+      font-size: 15px;
+      padding: 10px 12px;
+      border: 1.8px solid #a0b8d6;
+      border-radius: 8px;
+      transition: border-color 0.25s ease;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #1a73e8;
+      outline: none;
+      box-shadow: 0 0 6px rgba(26, 115, 232, 0.4);
+    }
+    button[type="submit"], button#btnEsportaWord {
+      flex: 1 1 100%;
+      max-width: 220px;
+      align-self: center;
+      background-color: #1a73e8;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 0;
+      font-weight: 700;
+      font-size: 18px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.6);
+      transition: background-color 0.3s ease;
+      margin-top: 15px;
+    }
+    button[type="submit"]:hover, button#btnEsportaWord:hover {
+      background-color: #155ab6;
+    }
+    table {
+      max-width: 980px;
+      margin: 0 auto 35px auto;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(26, 115, 232, 0.12);
+      overflow: hidden;
+    }
+    th, td {
+      padding: 14px 18px;
+      text-align: center;
+      font-size: 14.5px;
+      color: #34495e;
+    }
+    th {
+      background-color: #1a73e8;
+      color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    tbody tr:nth-child(even) {
+      background-color: #f5f9ff;
+    }
+    tbody tr:hover {
+      background-color: #dbe9ff;
+      transition: background-color 0.3s ease;
+    }
+    .btn-elimina, .btn-modifica, .btn-whatsapp {
+      font-weight: 600;
+      font-size: 13px;
+      padding: 7px 12px;
+      margin: 3px 3px 3px 0;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn-elimina {
+      background-color: #e74c3c;
+      color: white;
+    }
+    .btn-elimina:hover {
+      background-color: #c0392b;
+      box-shadow: 0 4px 10px rgba(192, 57, 43, 0.6);
+    }
+    .btn-modifica {
+      background-color: #2980b9;
+      color: white;
+    }
+    .btn-modifica:hover {
+      background-color: #1f6391;
+      box-shadow: 0 4px 10px rgba(31, 99, 145, 0.6);
+    }
+    .btn-whatsapp {
+      background-color: #25d366;
+      color: white;
+    }
+    .btn-whatsapp:hover {
+      background-color: #1ebe57;
+      box-shadow: 0 4px 10px rgba(30, 190, 87, 0.6);
+    }
+    #boxTotali {
+      max-width: 980px;
+      margin: 0 auto 30px auto;
+      background: #ffffff;
+      padding: 18px 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 14px rgba(26, 115, 232, 0.1);
+      font-weight: 700;
+      font-size: 16.5px;
+      color: #2c3e50;
+      text-align: center;
+    }
+    #popupModifica {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border: 2.8px solid #1a73e8;
+      padding: 25px 28px;
+      border-radius: 14px;
+      z-index: 1100;
+      box-shadow: 0 7px 24px rgba(26, 115, 232, 0.35);
+      min-width: 320px;
+      max-width: 90vw;
+      text-align: center;
+      font-weight: 600;
+    }
+    #popupModifica h3 {
+      margin-bottom: 18px;
+      color: #1a73e8;
+      font-size: 22px;
+    }
+    #popupModifica select {
+      font-size: 16px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1.8px solid #a0b8d6;
+      margin-bottom: 22px;
+      width: 85%;
+      transition: border-color 0.3s ease;
+    }
+    #popupModifica select:focus {
+      border-color: #1a73e8;
+      outline: none;
+      box-shadow: 0 0 7px rgba(26, 115, 232, 0.5);
+    }
+    #popupModifica button {
+      padding: 11px 22px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      margin: 0 8px;
+      box-shadow: 0 4px 14px rgba(26, 115, 232, 0.4);
+      transition: background-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    #popupModifica button:first-of-type {
+      background-color: #1a73e8;
+      color: white;
+    }
+    #popupModifica button:first-of-type:hover {
+      background-color: #155ab6;
+      box-shadow: 0 6px 20px rgba(21, 90, 182, 0.7);
+    }
+    #popupModifica button:last-of-type {
+      background-color: #bbb;
+      color: #2c3e50;
+    }
+    #popupModifica button:last-of-type:hover {
+      background-color: #999;
+      box-shadow: none;
+    }
+    @media (max-width: 680px) {
+      .form-group {
+        flex: 1 1 100%;
+      }
+      button[type="submit"], button#btnEsportaWord {
+        max-width: 100%;
+      }
+      table, #boxTotali, .form-container {
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h2>Modulo Ordine</h2>
-  <form>
-    <label for="nome">Nome:</label><br />
-    <input type="text" id="nome" name="nome" placeholder="Inserisci il tuo nome" required /><br /><br />
+  <h1>Gestione Pullman - Notte della Taranta</h1>
+  <div class="logo-container">
+    <img src="partecipata_NDT_logo.jpg" alt="Logo Notte della Taranta" />
+  </div>
+  <div class="form-container">
+    <form id="formPartecipanti">
+      <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" required />
+      </div>
+      <div class="form-group">
+        <label for="cognome">Cognome</label>
+        <input type="text" id="cognome" required />
+      </div>
+      <div class="form-group">
+        <label for="telefono">Telefono</label>
+        <input type="tel" id="telefono" required pattern="[0-9+ ]+" placeholder="+39 333 1234567" />
+      </div>
+      <div class="form-group">
+        <label for="maglia">Maglia (10€)</label>
+        <select id="maglia">
+          <option value="no" selected>No</option>
+          <option value="si">Sì</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="tagliaMaglia">Taglia maglia</label>
+        <select id="tagliaMaglia" disabled>
+          <option value="" selected>-- Seleziona taglia --</option>
+          <option value="XS">XS</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="XXL">XXL</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="quota">Quota versata (25€ biglietto)</label>
+        <select id="quota">
+          <option value="no" selected>No</option>
+          <option value="si">Sì</option>
+        </select>
+      </div>
+      <button type="submit">Aggiungi partecipante</button>
+    </form>
+  </div>
 
-    <label for="ordine">Ordine:</label><br />
-    <textarea id="ordine" name="ordine" placeholder="Descrivi il tuo ordine" required></textarea><br /><br />
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Cognome</th>
+        <th>Telefono</th>
+        <th>Maglia</th>
+        <th>Taglia</th>
+        <th>Quota versata</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+    <tbody id="listaPartecipanti">
+      <!-- Partecipanti inseriti qui -->
+    </tbody>
+  </table>
 
-    <button type="submit">Invia</button>
-  </form>
+  <div id="boxTotali">
+    <span id="totPartecipanti">Partecipanti: 0</span> |
+    <span id="totSoldiBiglietti">Totale soldi biglietti: €0</span> |
+    <span id="totQuoteMaglie">Totale soldi maglie: €0</span> |
+    <span id="totMaglieVendute">Maglie vendute: 0</span>
+  </div>
 
-  <script>
-    // Se vuoi, qui potresti aggiungere il codice JS per gestire l'invio, salvare offline, ecc.
-    document.querySelector("form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      alert("Ordine inviato! Grazie " + document.getElementById("nome").value);
-      // Qui puoi aggiungere codice per inviare dati da qualche parte o salvarli offline
+  <div style="max-width:980px; margin: 0 auto 30px auto; text-align:center;">
+    <button id="btnEsportaWord">Esporta dati su Word</button>
+  </div>
+
+  <!-- Popup Modifica -->
+  <div id="popupModifica" style="display:none;">
+    <h3 id="titoloModifica">Modifica</h3>
+    <label id="labelModifica"></label>
+    <select id="selectModifica">
+      <option value="si">Sì</option>
+      <option value="no">No</option>
+    </select>
+    <div style="margin-top:20px;">
+      <button id="btnConfermaModifica">Conferma</button>
+      <button id="btnAnnullaModifica">Annulla</button>
+    </div>
+  </div>
+
+<script>
+  const form = document.getElementById('formPartecipanti');
+  const listaPartecipanti = document.getElementById('listaPartecipanti');
+  const popupModifica = document.getElementById('popupModifica');
+  const titoloModifica = document.getElementById('titoloModifica');
+  const labelModifica = document.getElementById('labelModifica');
+  const selectModifica = document.getElementById('selectModifica');
+  const btnConfermaModifica = document.getElementById('btnConfermaModifica');
+  const btnAnnullaModifica = document.getElementById('btnAnnullaModifica');
+
+  const inputNome = document.getElementById('nome');
+  const inputCognome = document.getElementById('cognome');
+  const inputTelefono = document.getElementById('telefono');
+  const selectMaglia = document.getElementById('maglia');
+  const selectTagliaMaglia = document.getElementById('tagliaMaglia');
+  const selectQuota = document.getElementById('quota');
+
+  const totPartecipantiSpan = document.getElementById('totPartecipanti');
+  const totSoldiBigliettiSpan = document.getElementById('totSoldiBiglietti');
+  const totQuoteMaglieSpan = document.getElementById('totQuoteMaglie');
+  const totMaglieVenduteSpan = document.getElementById('totMaglieVendute');
+
+  const btnEsportaWord = document.getElementById('btnEsportaWord');
+
+  let partecipanti = JSON.parse(localStorage.getItem('partecipanti')) || [];
+
+  // Funzione per aggiornare la tabella
+  function aggiornaTabella() {
+    listaPartecipanti.innerHTML = '';
+    partecipanti.forEach((p, i) => {
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+        <td>${p.nome}</td>
+        <td>${p.cognome}</td>
+        <td>${p.telefono}</td>
+        <td>${p.maglia}</td>
+        <td>${p.maglia === 'Sì' ? p.tagliaMaglia : '-'}</td>
+        <td>${p.quota === 'Sì' ? 'Sì' : 'No'}</td>
+        <td>
+          <button class="btn-modifica" data-index="${i}" data-azione="quota">Modifica Quota</button>
+          <button class="btn-modifica" data-index="${i}" data-azione="maglia">Modifica Maglia</button>
+          <button class="btn-elimina" data-index="${i}">Elimina</button>
+          <button class="btn-whatsapp" data-index="${i}">WhatsApp</button>
+        </td>
+      `;
+
+      listaPartecipanti.appendChild(tr);
     });
-  </script>
+    aggiornaTotali();
+    salvaDati();
+  }
+
+  // Aggiorna i totali
+  function aggiornaTotali() {
+    const totPartecipanti = partecipanti.length;
+    const totSoldiBiglietti = partecipanti.filter(p => p.quota === 'Sì').length * 25;
+    const totMaglieVendute = partecipanti.filter(p => p.maglia === 'Sì').length;
+    const totQuoteMaglie = totMaglieVendute * 10;
+
+    totPartecipantiSpan.textContent = `Partecipanti: ${totPartecipanti}`;
+    totSoldiBigliettiSpan.textContent = `Totale soldi biglietti: €${totSoldiBiglietti}`;
+    totQuoteMaglieSpan.textContent = `Totale soldi maglie: €${totQuoteMaglie}`;
+    totMaglieVenduteSpan.textContent = `Maglie vendute: ${totMaglieVendute}`;
+  }
+
+  // Salva su localStorage
+  function salvaDati() {
+    localStorage.setItem('partecipanti', JSON.stringify(partecipanti));
+  }
+
+  // Reset form
+  function resetForm() {
+    form.reset();
+    selectTagliaMaglia.disabled = true;
+  }
+
+  // Event listener maglia - abilita/disabilita taglia
+  selectMaglia.addEventListener('change', () => {
+    if (selectMaglia.value === 'si') {
+      selectTagliaMaglia.disabled = false;
+      selectTagliaMaglia.required = true;
+    } else {
+      selectTagliaMaglia.disabled = true;
+      selectTagliaMaglia.value = '';
+      selectTagliaMaglia.required = false;
+    }
+  });
+
+  // Aggiungi partecipante
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const nome = inputNome.value.trim();
+    const cognome = inputCognome.value.trim();
+    const telefono = inputTelefono.value.trim();
+    const maglia = selectMaglia.value === 'si' ? 'Sì' : 'No';
+    const tagliaMaglia = maglia === 'Sì' ? selectTagliaMaglia.value : '-';
+    const quota = selectQuota.value === 'si' ? 'Sì' : 'No';
+
+    if (maglia === 'Sì' && !tagliaMaglia) {
+      alert('Se scegli la maglia, devi selezionare la taglia.');
+      return;
+    }
+
+    partecipanti.push({ nome, cognome, telefono, maglia, tagliaMaglia, quota });
+    aggiornaTabella();
+    resetForm();
+  });
+
+  // Gestione azioni tabella
+  listaPartecipanti.addEventListener('click', e => {
+    if (e.target.classList.contains('btn-elimina')) {
+      const index = e.target.dataset.index;
+      if (confirm(`Eliminare ${partecipanti[index].nome} ${partecipanti[index].cognome}?`)) {
+        partecipanti.splice(index, 1);
+        aggiornaTabella();
+      }
+    } else if (e.target.classList.contains('btn-modifica')) {
+      const index = e.target.dataset.index;
+      const azione = e.target.dataset.azione;
+      mostraPopupModifica(index, azione);
+    } else if (e.target.classList.contains('btn-whatsapp')) {
+      const index = e.target.dataset.index;
+      inviaWhatsapp(index);
+    }
+  });
+
+  // Popup modifica
+  let modificaIndex = null;
+  let modificaTipo = null;
+
+  function mostraPopupModifica(index, tipo) {
+    modificaIndex = index;
+    modificaTipo = tipo;
+    popupModifica.style.display = 'block';
+
+    if (tipo === 'quota') {
+      titoloModifica.textContent = 'Modifica Quota Versata';
+      labelModifica.textContent = `Quota versata per ${partecipanti[index].nome} ${partecipanti[index].cognome}:`;
+      selectModifica.value = partecipanti[index].quota === 'Sì' ? 'si' : 'no';
+      selectModifica.disabled = false;
+    } else if (tipo === 'maglia') {
+      titoloModifica.textContent = 'Modifica Maglia';
+      labelModifica.textContent = `Maglia acquistata da ${partecipanti[index].nome} ${partecipanti[index].cognome}:`;
+      selectModifica.value = partecipanti[index].maglia === 'Sì' ? 'si' : 'no';
+      selectModifica.disabled = false;
+    }
+  }
+
+  btnConfermaModifica.addEventListener('click', () => {
+    if (modificaIndex === null || modificaTipo === null) return;
+
+    if (modificaTipo === 'quota') {
+      partecipanti[modificaIndex].quota = selectModifica.value === 'si' ? 'Sì' : 'No';
+    } else if (modificaTipo === 'maglia') {
+      partecipanti[modificaIndex].maglia = selectModifica.value === 'si' ? 'Sì' : 'No';
+      if (partecipanti[modificaIndex].maglia === 'No') {
+        partecipanti[modificaIndex].tagliaMaglia = '-';
+      } else if (partecipanti[modificaIndex].tagliaMaglia === '-') {
+        partecipanti[modificaIndex].tagliaMaglia = 'M'; // valore di default se non c'era taglia
+      }
+    }
+
+    popupModifica.style.display = 'none';
+    modificaIndex = null;
+    modificaTipo = null;
+    aggiornaTabella();
+  });
+
+  btnAnnullaModifica.addEventListener('click', () => {
+    popupModifica.style.display = 'none';
+    modificaIndex = null;
+    modificaTipo = null;
+  });
+
+  // Funzione invio messaggio WhatsApp
+  function inviaWhatsapp(index) {
+    const p = partecipanti[index];
+    const testo = `Ciao ${p.nome},prenotazione confermata per la Notte della Taranta. Ci vediamo sabato 23 agosto, ricordati CI BALLA LA PIZZICA NUN MORE MAI\n` +
+                
+                  `Ti aspettiamo!`;
+    const numero = p.telefono.replace(/[^0-9+]/g, ''); // pulisce il numero
+
+    // Apri WhatsApp web o app
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(testo)}`;
+    window.open(url, '_blank');
+  }
+
+  // Esporta dati in Word
+  btnEsportaWord.addEventListener('click', () => {
+    let contenutoWord = `
+      <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+            xmlns:w='urn:schemas-microsoft-com:office:word' 
+            xmlns='http://www.w3.org/TR/REC-html40'>
+      <head><title>Export</title></head><body>
+      <h2>Elenco Partecipanti Notte della Taranta</h2>
+      <table border="1" style="border-collapse: collapse; width: 100%;">
+        <thead>
+          <tr style="background-color:#1a73e8; color:#fff;">
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Telefono</th>
+            <th>Maglia</th>
+            <th>Taglia</th>
+            <th>Quota versata</th>
+          </tr>
+        </thead><tbody>
+    `;
+
+    partecipanti.forEach(p => {
+      contenutoWord += `
+        <tr>
+          <td>${p.nome}</td>
+          <td>${p.cognome}</td>
+          <td>${p.telefono}</td>
+          <td>${p.maglia}</td>
+          <td>${p.maglia === 'Sì' ? p.tagliaMaglia : '-'}</td>
+          <td>${p.quota}</td>
+        </tr>
+      `;
+    });
+
+    contenutoWord += `</tbody></table>
+      <br>
+      <p><strong>Totale partecipanti:</strong> ${partecipanti.length}</p>
+      <p><strong>Totale soldi biglietti:</strong> €${partecipanti.filter(p => p.quota === 'Sì').length * 25}</p>
+      <p><strong>Totale soldi maglie:</strong> €${partecipanti.filter(p => p.maglia === 'Sì').length * 10}</p>
+      <p><strong>Maglie vendute:</strong> ${partecipanti.filter(p => p.maglia === 'Sì').length}</p>
+      </body></html>`;
+
+    const blob = new Blob(['\ufeff', contenutoWord], { type: 'application/msword' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'Partecipanti_NotteDellaTaranta.doc';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+
+  // Carica dati da localStorage all'avvio
+  aggiornaTabella();
+</script>
 </body>
 </html>
-
-AGGIORNO MODULO ORDINE
