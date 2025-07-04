@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modulo Ordine</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('SW registrato'))
+        .catch(e => console.error('SW non registrato', e));
+    }
+  </script>
+</head>
+<body>
+  <h1>Modulo Ordine</h1>
+  <form>
+    <label for="name">Nome:</label><br>
+    <input type="text" id="name" name="name"><br>
+    <label for="order">Ordine:</label><br>
+    <input type="text" id="order" name="order"><br><br>
+    <input type="submit" value="Invia">
+  </form>
+</body>
+</html>
